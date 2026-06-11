@@ -27,7 +27,7 @@ An IP address is marked as suspicious when it generates three or more failed log
 4. IP addresses meeting the detection rule are displayed.
 
 ## Example Output
-Example output is showcased in `security-log-analyzer/screenshots`
+Example output is showcased [HERE](https://github.com/alandudzinski/security-log-analyzer/blob/main/screenshots)
 
 ## Sample SQL Queries to Try
 The following queries can be used in `detect_suspicious_ips` to change the output of the program to desired data. Feel free to use any queries not on this list.
