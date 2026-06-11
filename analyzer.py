@@ -16,7 +16,7 @@ def create_database(connection: sqlite3.Connection) -> None:
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             timestamp TEXT NOT NULL,
             username TEXT NOT NULL,
-            ip_adress TEXT NOT NULL,
+            ip_address TEXT NOT NULL,
             status TEXT NOT NULL
         )
         """
