@@ -24,7 +24,7 @@ def create_database(connection: sqlite3.Connection) -> None:
     connection.commit()
 
 
-# Import events from the included login_events.csv
+# Import events from the included login_events.csv into db
 def import_events(connection: sqlite3.Connection) -> None:
     with open(CSV_FILE, "r", encoding="utf-8", newline="") as file:
         reader = csv.DictReader(file)
@@ -71,3 +71,20 @@ def detect_suspicious_ips(connection: sqlite3.Connection) -> None:
     if not found:
         print("No suspicious IP addresses detected.")
 
+
+def main() -> None:
+    try:
+        with sqlite3.connect(DATABASE_FILE) as connection:
+            create_database(connection)
+            import_events(connection)
+            detect_suspicious_ips(connection)
+    # Credits to ChatGPT for pointing out I should use try/except blocks here
+    except FileNotFoundError:
+        print(f"Error: {CSV_FILE} was not found.")
+    except (sqlite3.Error, KeyError) as error:
+        print(f"Error: {error}")
+
+
+# Ensure this script is not called outside running main
+if __name__ == "__main__":
+    main()
