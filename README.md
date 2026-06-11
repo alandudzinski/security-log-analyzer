@@ -29,6 +29,34 @@ An IP address is marked as suspicious when it generates three or more failed log
 ## Example Output
 Example output is showcased in `security-log-analyzer/screenshots`
 
+## Sample SQL Queries to Try
+The following queries can be used in `detect_suspicious_ips` to change the output of the program to desired data. Feel free to use any queries not on this list.
+
+Show all failed logins
+```sql
+SELECT *
+FROM login_events
+WHERE status = 'failed';
+```
+
+Count failures by IP address
+```sql
+SELECT ip_address, COUNT(*) AS failed_attempts
+FROM login_events
+WHERE status = 'failed'
+GROUP BY ip_address
+ORDER BY failed_attempts DESC;
+```
+
+Find usernames with failed logins
+```sql
+SELECT username, COUNT(*) AS failed_attempts
+FROM login_events
+WHERE status = 'failed'
+GROUP BY username
+ORDER BY failed_attempts DESC;
+```
+
 ## Security Relevance
 Repeated failed login attempts can indicate:
 - Attacks such as brute-force
