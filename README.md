@@ -1,14 +1,30 @@
 # Security Log Analyzer
 
 ## Project Overview
+This project uses Python and SQLite to analyze login events and identify IP addresses with repeated failed login attempts.
 
 ## Features
+- Reads login data from a CSV file
+- Stores events in a SQLite database
+- Detects repeated failed login attempts
+- Uses SQL to summarize suspicious activity
+- Handles UTF-8 encoded text
 
-## Technologies
+## Technologies Used
+- Python
+- SQL
+- SQLite
+- CSV
+- UTF-8 encoding
 
 ## Detection Rule
+An IP address is marked as suspicious when it generates three or more failed login attempts.
 
 ## How It Works
+1. Python reads the CSV file of login events.
+2. Each login event is inserted into a SQL table.
+3. The program counts failed attempts by IP address.
+4. IP addresses meeting the detection rule are displayed.
 
 ## Example Output
 
