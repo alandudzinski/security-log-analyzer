@@ -65,16 +65,33 @@ def detect_suspicious_ips(connection: sqlite3.Connection) -> None:
     # Finds all IP addresses with many failed attempts
     for ip_address, count in failed_attempts.items():
         if count >= FAILURE_ATTEMPTS:
-            print(f"- {ip_address}: {count} failed attempts")
+            # Add risk levels to the failure attempts found
+            if count >= 10:
+                risk = "HIGH"
+            elif count >= 5:
+                risk = "MEDIUM"
+            else:
+                risk = "LOW"
+            print(f"- {ip_address}: {count} failed attempts. Risk Level: {risk}")
             found = True
 
     if not found:
         print("No suspicious IP addresses detected.")
 
 
+# Clear tables after finished
+def clear_table(connection: sqlite3.Connection) -> None:
+    connection.execute("DELETE FROM login_events")
+    connection.execute(
+        "DELETE FROM sqlite_sequence WHERE name = 'login_events'"
+    )
+    connection.commit()
+
+
 def main() -> None:
     try:
         with sqlite3.connect(DATABASE_FILE) as connection:
+            clear_table(connection)
             create_database(connection)
             import_events(connection)
             detect_suspicious_ips(connection)
