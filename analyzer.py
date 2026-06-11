@@ -5,9 +5,10 @@ from collections import Counter
 
 DATABASE_FILE = "security_logs.db"
 CSV_FILE = "login_events.csv"
-FAILURE_ATTEMPTS = 3
+FAILURE_ATTEMPTS = 3 # Threshold for determining if an IP is suspicious
 
 
+# Create the login_events database
 def create_database(connection: sqlite3.Connection) -> None:
     connection.execute(
         """
@@ -23,6 +24,7 @@ def create_database(connection: sqlite3.Connection) -> None:
     connection.commit()
 
 
+# Import events from the included login_events.csv
 def import_events(connection: sqlite3.Connection) -> None:
     with open(CSV_FILE, "r", encoding="utf-8", newline="") as file:
         reader = csv.DictReader(file)
@@ -43,3 +45,29 @@ def import_events(connection: sqlite3.Connection) -> None:
             )
 
     connection.commit()
+
+
+# Extract any suspicious ip addresses from the login events
+def detect_suspicious_ips(connection: sqlite3.Connection) -> None:
+    rows = connection.execute(
+        """
+        SELECT ip_address FROM login_events
+        WHERE status = 'failed'
+        """
+    ).fetchall()
+
+    failed_attempts = Counter(row[0] for row in rows)
+
+    print("\nSuspicious IP addresses:")
+
+    found = False
+
+    # Finds all IP addresses with many failed attempts
+    for ip_address, count in failed_attempts.items():
+        if count >= FAILURE_ATTEMPTS:
+            print(f"- {ip_address}: {count} failed attempts")
+            found = True
+
+    if not found:
+        print("No suspicious IP addresses detected.")
+
