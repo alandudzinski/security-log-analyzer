@@ -5,7 +5,11 @@ from collections import Counter
 
 DATABASE_FILE = "security_logs.db"
 CSV_FILE = "login_events.csv"
-FAILURE_ATTEMPTS = 3 # Threshold for determining if an IP is suspicious
+
+# Thresholds for determining if an IP is suspicious
+HIGH_THRESHOLD_RISK = 10
+MEDIUM_THRESHOLD_RISK = 5
+LOW_THRESHOLD_RISK = 3
 
 
 # Create the login_events database
@@ -66,11 +70,11 @@ def detect_suspicious_ips(connection: sqlite3.Connection) -> None:
     for ip_address, count in failed_attempts.items():
         if count >= FAILURE_ATTEMPTS:
             # Add risk levels to the failure attempts found
-            if count >= 10:
+            if count >= HIGH_THRESHOLD_RISK:
                 risk = "HIGH"
-            elif count >= 5:
+            elif count >= MEDIUM_THRESHOLD_RISK:
                 risk = "MEDIUM"
-            else:
+            elif count >= HIGH_THRESHOLD_RISK:
                 risk = "LOW"
             print(f"- {ip_address}: {count} failed attempts. Risk Level: {risk}")
             found = True
