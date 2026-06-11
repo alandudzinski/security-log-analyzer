@@ -68,13 +68,13 @@ def detect_suspicious_ips(connection: sqlite3.Connection) -> None:
 
     # Finds all IP addresses with many failed attempts
     for ip_address, count in failed_attempts.items():
-        if count >= FAILURE_ATTEMPTS:
+        if count >= LOW_THRESHOLD_RISK:
             # Add risk levels to the failure attempts found
             if count >= HIGH_THRESHOLD_RISK:
                 risk = "HIGH"
             elif count >= MEDIUM_THRESHOLD_RISK:
                 risk = "MEDIUM"
-            elif count >= HIGH_THRESHOLD_RISK:
+            else:
                 risk = "LOW"
             print(f"- {ip_address}: {count} failed attempts. Risk Level: {risk}")
             found = True
