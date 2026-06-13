@@ -30,7 +30,7 @@ An IP address is marked as suspicious when it generates three or more failed log
 Example output is showcased [HERE](https://github.com/alandudzinski/security-log-analyzer/blob/main/screenshots)
 
 ## Sample SQL Queries to Try
-The following queries can be used in `detect_suspicious_ips` to change the output of the program to desired data. Feel free to use any queries not on this list.
+The following queries can be used in `detect_suspicious_ips` to change the output of the program to the desired data. Feel free to use any queries not on this list.
 
 Show all failed logins
 ```sql
@@ -68,11 +68,11 @@ Repeated failed login attempts can indicate:
 - How programs process and represent data
 - How UTF-8 encoding handles text
 - How Python reads files such as CSV
-- How SQL stores and retreives information via tables and queries
+- How SQL stores and retrieves information via tables and queries
 - How simple detection rules can identify suspicious behavior
 
 ## References
-- TryHackMe. "Introduction to Cyber Security." TryHackMe, [https://tryhackme.com/](https://tryhackme.com/module/software-basics)
+- TryHackMe. "Software Basics." TryHackMe, [https://tryhackme.com/](https://tryhackme.com/module/software-basics)
 
 ## Disclaimer
 This project is for educational purposes only. It summarizes concepts learned through TryHackMe and does not include walkthrough answers, flags, or private room solutions.
